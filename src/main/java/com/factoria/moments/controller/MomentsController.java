@@ -1,62 +1,57 @@
 package com.factoria.moments.controller;
 
 import com.factoria.moments.models.Moment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.factoria.moments.repositories.FakeMomentsRepository;
+import com.factoria.moments.repositories.IMomentRepository;
+import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-public class MomentsController {
 
-    private List<Moment> getMomentList() {
-        Moment moment1 = new Moment("paris", "vacances 2010", "", 1L);
-        Moment moment2 = new Moment("berlin", "vacances 2011", "", 2L);
-        var momentList = List.of(moment1, moment2);
-        return momentList;
+@RestController
+@CrossOrigin(origins="http://localhost:3000/")
+public class MomentsController<newMoment> {
+
+    private IMomentRepository momentsRepository;
+
+    public MomentsController(IMomentRepository momentsRepository) {
+        this.momentsRepository = momentsRepository;
     }
 
-
     @GetMapping("/moments")
-    List<Moment> getMoments() {
-
-        List<Moment> moments = getMomentList();
-        return moments;
-
+    List<Moment> getAll() {
+        var momentList = this.momentsRepository.findAll();
+        return momentList;
     }
 
 
     @GetMapping("/moments/{id}")
     Moment getById(@PathVariable Long id) {
-        var moments = this.getMomentList();
-        Moment moment = moments.stream()
-                .filter(Moment ->Moment.getId()==id)
-                .findFirst().get();
+        Moment moment = this.momentsRepository.findById(id).get();
         return moment;
 
     }
 
-
-    @GetMapping(value="/moments", params="search")
-    List<Moment> getMomentSearch(@RequestParam String search){ // definir la funció getMomentSearch amb l'endpoint moments?search={search}
-        var moments = this.getMomentList();
-        List<Moment> momentSearch = moments.stream()
-                .filter(item ->item.getTitle().contains(search) || item.getDescription().contains(search))
-                .collect(Collectors.toList()); //volem introduir l'item en funció el search introduit
-                return momentSearch;
+    @PostMapping("/moments")
+    Moment createMoment(@RequestBody Moment newMoment){
+        var moment = momentsRepository.save(newMoment);
+        return moment;
 
     }
 
-
-
-
-
+    @PutMapping("/moments/{id}")
+    Moment updateMoment(@PathVariable Long id, @RequestBody Moment updateMoment) {
+        var moment = momentsRepository.findById(id).get();
+        moment.setTitle(updateMoment.getTitle());
+        moment.setDescription(updateMoment.getTitle());
+        moment.setImgUrl(updateMoment.getImgUrl());
+        var dbMoment= momentsRepository.save(moment);
+        return dbMoment;
+    }
 
 }
+
 
 
 
