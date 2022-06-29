@@ -43,12 +43,22 @@ public class MomentsController<newMoment> {
     @PutMapping("/moments/{id}")
     Moment updateMoment(@PathVariable Long id, @RequestBody Moment updateMoment) {
         var moment = momentsRepository.findById(id).get();
+        moment.setImgUrl(updateMoment.getImgUrl());
         moment.setTitle(updateMoment.getTitle());
         moment.setDescription(updateMoment.getTitle());
-        moment.setImgUrl(updateMoment.getImgUrl());
         var dbMoment= momentsRepository.save(moment);
         return dbMoment;
     }
+
+    @DeleteMapping("/moments/{id}")
+    Moment deleteMoment(@PathVariable Long id){
+        var moment = momentsRepository.findById(id).get();
+        this.momentsRepository.delete(moment);
+        return moment;
+    }
+
+
+
 
 }
 

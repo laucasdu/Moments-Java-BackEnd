@@ -13,8 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Moment {
 
-    private String title;
     private String imgUrl;
+    private String title;
     private String description;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
