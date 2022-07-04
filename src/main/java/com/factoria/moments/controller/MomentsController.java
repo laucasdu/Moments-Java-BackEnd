@@ -49,7 +49,6 @@ public class MomentsController<newMoment> {
         var dbMoment= momentsRepository.save(moment);
         return dbMoment;
     }
-
     @DeleteMapping("/moments/{id}")
     Moment deleteMoment(@PathVariable Long id){
         var moment = momentsRepository.findById(id).get();
