@@ -1,12 +1,10 @@
 package com.factoria.moments.controller;
 
 import com.factoria.moments.models.Moment;
-import com.factoria.moments.repositories.FakeMomentsRepository;
 import com.factoria.moments.repositories.IMomentRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @RestController
@@ -50,12 +48,18 @@ public class MomentsController<newMoment> {
         return dbMoment;
     }
     @DeleteMapping("/moments/{id}")
-    Moment deleteMoment(@PathVariable Long id){
-        var moment = momentsRepository.findById(id).get();
+    boolean deleteMoment(@PathVariable Long id){
+        Moment moment = this.momentsRepository.findById(id).get();
         this.momentsRepository.delete(moment);
-        return moment;
+        return true;
     }
 
+
+    @GetMapping(value="/moments", params="search")
+    List<Moment> getMomentSearch(@RequestParam String search) {
+        return momentsRepository.findByTitleContainsIgnoreCaseOrDescriptionContainsIgnoreCase(search, search);
+
+    }
 
 
 

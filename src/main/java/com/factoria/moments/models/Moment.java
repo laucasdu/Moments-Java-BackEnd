@@ -28,23 +28,17 @@ public class Moment {
 
     @JsonSerialize
     public int commentCount(){
+
         return this.comments.size();
     }
 
+    // CONSTRUCTOR
     public Moment(String imgUrl, String title, String description, Long id) {
         this.imgUrl = imgUrl;
         this.title = title;
         this.description = description;
         this.id = id;
     }
-//Constructor
-
-//    public Moment(String title, String description, String imgURL, Long id){
-//        this.title = title;
-//        this.description = description;
-//        this.imgURL = imgURL;
-//        this.id = id;
-//    }
 
 
 }
