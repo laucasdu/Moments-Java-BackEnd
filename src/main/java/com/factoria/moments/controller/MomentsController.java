@@ -43,7 +43,7 @@ public class MomentsController<newMoment> {
         var moment = momentsRepository.findById(id).get();
         moment.setImgUrl(updateMoment.getImgUrl());
         moment.setTitle(updateMoment.getTitle());
-        moment.setDescription(updateMoment.getTitle());
+        moment.setDescription(updateMoment.getDescription());
         var dbMoment= momentsRepository.save(moment);
         return dbMoment;
     }
