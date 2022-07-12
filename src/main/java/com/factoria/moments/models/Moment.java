@@ -33,9 +33,14 @@ public class Moment {
     private List<Comment> comments = new ArrayList<>();
 
     @JsonSerialize
-    public int commentCount(){
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
 
+    }
+
+    public int commentCount(){
         return this.comments.size();
+
     }
 
 

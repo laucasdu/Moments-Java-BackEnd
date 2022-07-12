@@ -18,7 +18,6 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "moment_id")
-    @JsonIgnore
     private Moment moment;
 
 
