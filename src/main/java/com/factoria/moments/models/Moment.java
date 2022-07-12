@@ -1,5 +1,6 @@
 package com.factoria.moments.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,9 +20,14 @@ public class Moment {
     private String imgUrl;
     private String title;
     private String description;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
     @OneToMany(mappedBy = "moment")
     private List<Comment> comments = new ArrayList<>();
@@ -30,14 +36,6 @@ public class Moment {
     public int commentCount(){
 
         return this.comments.size();
-    }
-
-    // CONSTRUCTOR
-    public Moment(String imgUrl, String title, String description, Long id) {
-        this.imgUrl = imgUrl;
-        this.title = title;
-        this.description = description;
-        this.id = id;
     }
 
 
