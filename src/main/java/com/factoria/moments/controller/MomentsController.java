@@ -28,6 +28,7 @@ public class MomentsController<newMoment> {
 
     @GetMapping("/moments")
     List<Moment> getAll() {
+
         return momentService.getAll();
     }
 

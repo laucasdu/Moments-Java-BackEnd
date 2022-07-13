@@ -1,6 +1,5 @@
 package com.factoria.moments.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,16 +31,16 @@ public class Moment {
     @OneToMany(mappedBy = "moment")
     private List<Comment> comments = new ArrayList<>();
 
-    @JsonSerialize
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-
-    }
-
-    public int commentCount(){
-        return this.comments.size();
-
-    }
+//    @JsonSerialize
+//    public void addComment(Comment comment) {
+//        this.comments.add(comment);
+//
+//    }
+//
+//    public int commentCount(){
+//        return this.comments.size();
+//
+//    }
 
 
 }

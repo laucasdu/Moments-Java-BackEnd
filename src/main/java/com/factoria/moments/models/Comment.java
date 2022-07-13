@@ -20,5 +20,8 @@ public class Comment {
     @JoinColumn(name = "moment_id")
     private Moment moment;
 
+    @ManyToOne
+    @JoinColumn(name = "creator_id")
+    private User creator;
 
 }
