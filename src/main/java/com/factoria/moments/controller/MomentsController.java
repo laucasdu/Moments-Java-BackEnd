@@ -2,11 +2,9 @@ package com.factoria.moments.controller;
 
 import com.factoria.moments.dtos.MomentRequestDto;
 import com.factoria.moments.models.Moment;
-import com.factoria.moments.repositories.IMomentRepository;
+import com.factoria.moments.models.User;
 import com.factoria.moments.services.IMomentService;
 import com.factoria.moments.services.IUserService;
-import com.factoria.moments.services.MomentService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins="http://localhost:3000/")
-public class MomentsController<newMoment> {
+public class MomentsController {
 
 
     private IMomentService momentService;
@@ -28,7 +26,6 @@ public class MomentsController<newMoment> {
 
     @GetMapping("/moments")
     List<Moment> getAll() {
-
         return momentService.getAll();
     }
 
@@ -38,18 +35,43 @@ public class MomentsController<newMoment> {
         return momentService.findById(id);
     }
 
-    @PostMapping("/moments")
-    Moment create(@RequestBody MomentRequestDto newMoment){
-        var authUser = userService.getById(newMoment.getUserId());
+   @PostMapping("/moments")
+   Moment create(@RequestBody MomentRequestDto newMoment){
+        var authUser = getAutUser();
         return momentService.create(newMoment, authUser);
+   }
 
+    private User getAutUser() {
+        return userService.getById(1L);
     }
+//
+//    @PutMapping("/moments/{id}")
+//    Moment update(@PathVariable Long id, @RequestBody MomentRequestDto updateMoment) {
+//        var authUser=userService.getById(updateMoment.getUserId());
+//        return momentService.update(id, updateMoment, authUser);
+//    }
+//
+//
+//    @PutMapping("/instants/{id}")
+//    Instant update(@RequestBody InstantRequestDto newInstant, @PathVariable Long id){
+//        Instant instant = instantService.update(newInstant, id);
+//        return instant;
+//    }
 
     @PutMapping("/moments/{id}")
-    Moment update(@PathVariable Long id, @RequestBody MomentRequestDto updateMoment) {
-        var authUser=userService.getById(updateMoment.getUserId());
-        return momentService.update(id, updateMoment, authUser);
+    Moment update(@RequestBody MomentRequestDto newMoment, @PathVariable Long id){
+        Moment moment = momentService.update(newMoment, id);
+        return moment;
     }
+
+
+//    @PutMapping("/moments/{id}")
+//    Moment update(@RequestBody MomentRequestDto newMoment, @PathVariable Long id){
+//        Moment moment = momentService.update(newMoment, id);
+//        return moment;
+//    }
+
+
 
     @DeleteMapping("/moments/{id}")
     boolean delete(@PathVariable Long id){

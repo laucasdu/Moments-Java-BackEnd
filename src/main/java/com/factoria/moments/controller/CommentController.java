@@ -1,4 +1,4 @@
-package com.factoria.moments.controllers;
+package com.factoria.moments.controller;
 
 import com.factoria.moments.models.Comment;
 import com.factoria.moments.services.ICommentService;
