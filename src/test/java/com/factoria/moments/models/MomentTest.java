@@ -15,7 +15,6 @@ class MomentTest {
         //GIVEN
         var moment = new Moment();
         var comment = new Comment();
-      // moment.setComments(List.of(comment));
         moment.addComment(comment);
 
         //SYSTEM UNDER TEST

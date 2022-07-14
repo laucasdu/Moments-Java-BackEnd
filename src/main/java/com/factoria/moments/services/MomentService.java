@@ -7,7 +7,6 @@ import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.*;
 import java.util.List;
 
 @Service
@@ -42,10 +41,10 @@ public class MomentService implements IMomentService {
 
 
     @Override
-    public Moment delete(Long id) {
+    public boolean delete(Long id) {
         var moment= momentRepository.findById(id).get();
         this.momentRepository.delete(moment);
-        return moment;
+        return true;
     }
 
     @Override

@@ -29,17 +29,16 @@ public class Moment {
     private User creator;
 
     @OneToMany(mappedBy = "moment")
-    private List<Comment> comments = new ArrayList<>();
+    private List<Comment> commentsList = new ArrayList<>();
 
 
-    @JsonSerialize
     public void addComment(Comment comment) {
-        this.comments.add(comment);
+        this.commentsList.add(comment);
 
     }
-
+    @JsonSerialize
     public int commentCount(){
-        return this.comments.size();
+        return this.commentsList.size();
 
     }
 
