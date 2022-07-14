@@ -1,16 +1,17 @@
 package com.factoria.moments.controller;
 
+import com.factoria.moments.dtos.CommentRequestDto;
 import com.factoria.moments.models.Comment;
+import com.factoria.moments.models.User;
 import com.factoria.moments.services.ICommentService;
 import com.factoria.moments.services.IMomentService;
 import com.factoria.moments.services.IUserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins="*")
 public class CommentController {
 
     // ATRIBUTS
@@ -26,15 +27,25 @@ public class CommentController {
         this.userService = userService;
     }
 
-
     @GetMapping("/comments")
-    List<Comment> getAll() {
-        return this.commentService.findAll();
+    List<Comment> getAll(){
+        return commentService.findAll();
     }
 
-    @GetMapping("/comments/{id}")
-    Comment getById(@PathVariable Long id) {
-        return this.commentService.getById(id);
+    @GetMapping("/moments/{id}/comments")
+    List<Comment> getAllByMomentsId(@PathVariable Long id){
+        return commentService.getAllByMomentsId(id);
     }
+
+    @PostMapping("/comments")
+    Comment create(@RequestBody CommentRequestDto commentRequestDto){
+        var authUser = getAuthUser();
+        return commentService.create(commentRequestDto, authUser);
+    }
+
+    private User getAuthUser() {
+        return userService.getById(1L);
+    }
+
 
 }
