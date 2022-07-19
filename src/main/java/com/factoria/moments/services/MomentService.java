@@ -34,7 +34,7 @@ public class MomentService implements IMomentService {
         newMoment.setImgUrl(momentRequestDto.getImgUrl());
         newMoment.setDescription(momentRequestDto.getDescription());
         newMoment.setCreator(auth);
-//        System.out.println(auth);
+        //System.out.println(auth);
         return momentRepository.save(newMoment);
 
     }
