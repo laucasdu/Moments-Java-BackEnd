@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -39,4 +40,24 @@ public class Moment {
         return this.commentsList.size();
     }
 
+    //LIKE
+    @OneToMany(mappedBy = "moment" )
+    private List<Like> likes = new ArrayList<>();
+
+
+    public void addLike(Like like){
+        if(!like.getMoment().equals(this)) return; // CLAUSULA DE SALVAGUARDA
+        likes.add(like);
+    }
+
+    public int likesCount() {
+        return likes.size();
+    }
+
+    // Utilitzar equals compara només l'atribut (User), en canvi si posem == compara la memòria real.
+    public boolean isLiked(User lover) {
+        var likeLover = likes.stream().filter(Like -> Like.getLover() == (lover)).findFirst();
+        if (likeLover.isEmpty()) return false; // si està buit false
+        return true;
+    }
 }
