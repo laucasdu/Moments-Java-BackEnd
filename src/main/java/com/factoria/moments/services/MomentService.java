@@ -2,6 +2,7 @@ package com.factoria.moments.services;
 
 
 import com.factoria.moments.dtos.MomentRequestDto;
+import com.factoria.moments.exceptions.NotFoundException;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
@@ -22,10 +23,10 @@ public class MomentService implements IMomentService {
         return momentRepository.findAll();
     }
 
-    @Override
-    public Moment findById(Long id) {
-        return momentRepository.findById(id).get();
-    }
+//    @Override
+//    public Moment findById(Long id) {
+//        return momentRepository.findById(id).get();
+//    }
 
     @Override
     public Moment create(MomentRequestDto momentRequestDto, User auth) {
@@ -60,6 +61,13 @@ public class MomentService implements IMomentService {
         momentEdit.setDescription(momentRequestDto.getDescription());
         return momentRepository.save(momentEdit);
 
+    }
+
+    @Override
+    public Moment getById(Long id) {
+        var opMoment = momentRepository.findById(id);
+        if(opMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-153");
+        return opMoment.get();
     }
 
 

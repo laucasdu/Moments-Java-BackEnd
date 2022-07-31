@@ -10,16 +10,15 @@ public interface IMomentService {
 
     List<Moment> getAll();
 
-    Moment findById(Long id);
+//    Moment findById(Long id);
 
     Moment create(MomentRequestDto newMoment, User auth);
-
-
-//    Moment update(Long id, MomentRequestDto updateMoment, User authUser);
 
     boolean delete(Long id);
 
     List<Moment> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search);
 
     Moment update(MomentRequestDto newMoment, Long id);
+
+    Moment getById(Long id);
 }

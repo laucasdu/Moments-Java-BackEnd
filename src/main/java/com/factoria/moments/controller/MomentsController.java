@@ -5,6 +5,8 @@ import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.services.IMomentService;
 import com.factoria.moments.services.IUserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,10 +31,20 @@ public class MomentsController {
     }
 
 
+//    @GetMapping("/moments/{id}")
+//    Moment getById(@PathVariable Long id) {
+//        return momentService.findById(id);
+//    }
+
+    // Get moment id amb control d'errors
     @GetMapping("/moments/{id}")
-    Moment getById(@PathVariable Long id) {
-        return momentService.findById(id);
+    ResponseEntity<Moment> getById(@PathVariable Long id) {
+        var moment = momentService.getById(id);
+        return new ResponseEntity<>(moment, HttpStatus.NOT_FOUND);
     }
+
+
+
 
    @PostMapping("/moments")
    Moment create(@RequestBody MomentRequestDto newMoment){
