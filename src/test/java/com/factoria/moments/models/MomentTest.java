@@ -2,11 +2,8 @@ package com.factoria.moments.models;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class MomentTest {
 
@@ -69,7 +66,7 @@ class MomentTest {
         var like = new Like(lover, moment);
         moment.addLike(like);
 
-        var sut = moment.isLiked(lover);
+        var sut = moment.checkIfLiked(lover);
 
         assertThat(sut, equalTo(true));
         //assertThat(sut, equalTo(false)); falla
@@ -85,7 +82,7 @@ class MomentTest {
         var like = new Like(lover, moment);
         moment.addLike(like);
 
-        var sut = moment.isLiked(notLover);
+        var sut = moment.checkIfLiked(notLover);
 
         assertThat(sut, equalTo(false));
         //assertThat(sut, equalTo(true)); falla

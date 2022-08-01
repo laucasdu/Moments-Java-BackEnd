@@ -27,7 +27,8 @@ public class MomentsController {
 
     @GetMapping("/moments")
     List<Moment> getAll() {
-        return momentService.getAll();
+        var authUser = getAutUser();
+        return momentService.getAll(authUser);
     }
 
 
@@ -58,15 +59,17 @@ public class MomentsController {
 
 
     @PutMapping("/moments/{id}")
-    Moment update(@RequestBody MomentRequestDto newMoment, @PathVariable Long id){
-        Moment moment = momentService.update(newMoment, id);
+    Moment update(@RequestBody MomentRequestDto update, @PathVariable Long id){
+        var authUser = getAutUser();
+        Moment moment = momentService.update(update, id, authUser);
         return moment;
     }
 
 
     @DeleteMapping("/moments/{id}")
     boolean delete(@PathVariable Long id){
-        return momentService.delete(id);
+        var authUser = getAutUser();
+        return momentService.delete(id, authUser);
     }
 
     @GetMapping(value="/moments", params="search")

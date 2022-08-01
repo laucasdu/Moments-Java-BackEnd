@@ -1,14 +1,15 @@
 package com.factoria.moments.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Entity
@@ -30,6 +31,8 @@ public class Moment {
     private User creator;
 
     @OneToMany(mappedBy = "moment")
+    @JsonIgnore
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Comment> commentsList = new ArrayList<>();
 
     public void addComment(Comment comment) {
@@ -42,6 +45,8 @@ public class Moment {
 
     //LIKE
     @OneToMany(mappedBy = "moment" )
+    @JsonIgnore
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Like> likes = new ArrayList<>();
 
 
@@ -49,15 +54,18 @@ public class Moment {
         if(!like.getMoment().equals(this)) return; // CLAUSULA DE SALVAGUARDA
         likes.add(like);
     }
-
+    @JsonSerialize
     public int likesCount() {
         return likes.size();
     }
 
     // Utilitzar equals compara només l'atribut (User), en canvi si posem == compara la memòria real.
-    public boolean isLiked(User lover) {
+    @JsonSerialize
+    public boolean checkIfLiked(User lover) {
         var likeLover = likes.stream().filter(Like -> Like.getLover() == (lover)).findFirst();
         if (likeLover.isEmpty()) return false; // si està buit false
         return true;
     }
+
+
 }

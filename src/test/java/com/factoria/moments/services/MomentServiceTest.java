@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,7 +51,7 @@ class MomentServiceTest {
     }
 
     @Test
-    void findByIdReturnsAnMoment() {
+    void findByIdShouldReturnAMomentWithSameParamId() {
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var moment = this.createMoment();
@@ -57,10 +60,10 @@ class MomentServiceTest {
 
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         // sut és el nom del test abans del should
-        var sut = momentService.findById(1L);
+        var sut = momentService.getById(1L);
 
         //THEN
-        assertThat(sut.getId(), equalTo(moment.getId()));
+        assertThat(sut.getTitle(), equalTo(moment.getTitle()));
     }
 
     @Test
@@ -69,10 +72,14 @@ class MomentServiceTest {
     }
 
 
+
+
     @Test
-    void update() {
+    void updateMomentShouldModifyAMomentFromRequestDTO() {
+
 
     }
+
 
 
     @Test
@@ -80,11 +87,12 @@ class MomentServiceTest {
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var moment = this.createMoment(); // si no tens això cal que cada vegada creis el moment i el user
-
+        var user = new User();
+        user.setId(1L);
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         Mockito.when(momentRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
 
-        var sut = momentService.delete(1L);
+        var sut = momentService.delete(1L, user);
 
         //THEN
         assertThat(sut, equalTo(true));

@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface IMomentService {
 
-    List<Moment> getAll();
+    List<Moment> getAll(User authUser);
 
 //    Moment findById(Long id);
 
     Moment create(MomentRequestDto newMoment, User auth);
 
-    boolean delete(Long id);
+    boolean delete(Long id, User authUser);
 
     List<Moment> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search);
 
-    Moment update(MomentRequestDto newMoment, Long id);
+    Moment update(MomentRequestDto newMoment, Long id, User authUser);
 
     Moment getById(Long id);
 }

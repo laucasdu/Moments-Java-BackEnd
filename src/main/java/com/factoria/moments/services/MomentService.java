@@ -2,12 +2,14 @@ package com.factoria.moments.services;
 
 
 import com.factoria.moments.dtos.MomentRequestDto;
+import com.factoria.moments.exceptions.BadRequestException;
 import com.factoria.moments.exceptions.NotFoundException;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +20,9 @@ public class MomentService implements IMomentService {
         this.momentRepository = momentRepository;
     }
 
+
     @Override
-    public List<Moment> getAll() {
+    public List<Moment> getAll(User authUser) {
         return momentRepository.findAll();
     }
 
@@ -42,9 +45,11 @@ public class MomentService implements IMomentService {
 
 
     @Override
-    public boolean delete(Long id) {
-        var moment= momentRepository.findById(id).get();
-        this.momentRepository.delete(moment);
+    public boolean delete(Long id, User authUser) {
+        var moment= momentRepository.findById(id);
+        if (moment.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
+        if (moment.get().getCreator()!=authUser) throw new BadRequestException("Only the creator can update his moment", "M-008");
+        this.momentRepository.delete(moment.get());
         return true;
     }
 
@@ -54,17 +59,20 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public Moment update(MomentRequestDto momentRequestDto, Long id) {
-        var momentEdit = momentRepository.findById(id).get();
-        momentEdit.setTitle(momentRequestDto.getTitle());
-        momentEdit.setImgUrl(momentRequestDto.getImgUrl());
-        momentEdit.setDescription(momentRequestDto.getDescription());
-        return momentRepository.save(momentEdit);
+    public Moment update(MomentRequestDto momentRequestDto, Long id, User authUser) {
+        var momentEdit = momentRepository.findById(id);
+        if (momentEdit.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
+        if (momentEdit.get().getCreator()!=authUser) throw new BadRequestException("Only the creator can update his moment", "M-008");
+        momentEdit.get().setTitle(momentRequestDto.getTitle());
+        momentEdit.get().setImgUrl(momentRequestDto.getImgUrl());
+        momentEdit.get().setDescription(momentRequestDto.getDescription());
+        return momentRepository.save(momentEdit.get());
 
     }
 
     @Override
     public Moment getById(Long id) {
+        System.out.println(id);
         var opMoment = momentRepository.findById(id);
         if(opMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-153");
         return opMoment.get();

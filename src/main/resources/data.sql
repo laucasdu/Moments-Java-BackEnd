@@ -9,10 +9,18 @@ VALUES
 
 INSERT
 INTO
+  users
+  (user_Name, user_Img)
+VALUES
+  ('Laura', 'https://static.vecteezy.com/system/resources/previews/001/993/889/non_2x/beautiful-latin-woman-avatar-character-icon-free-vector.jpg');
+
+
+INSERT
+INTO
   moments
   (img_Url, title, description, creator_id)
 VALUES
-  ('https://viajes.nationalgeographic.com.es/medio/2019/07/19/acantilados-de-moher-ser-yo-tiene-sus-privilegios_1b1cd0a5_1500x994.jpg', 'Spain', 'Asturias', 1);
+  ('https://viajes.nationalgeographic.com.es/medio/2019/07/19/acantilados-de-moher-ser-yo-tiene-sus-privilegios_1b1cd0a5_1500x994.jpg', 'Spain', 'Asturias', 2);
 
 INSERT
 INTO
@@ -81,3 +89,15 @@ INTO
   (comment, moment_id, creator_id)
 VALUES
   ('Music oh yeah!', 3, 1);
+INSERT
+INTO
+  likes
+  (lover_id, moment_id)
+VALUES
+  (1, 1);
+INSERT
+INTO
+  likes
+  (lover_id, moment_id)
+VALUES
+  (1, 2);

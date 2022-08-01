@@ -2,6 +2,7 @@ package com.factoria.moments.controller;
 
 
 import com.factoria.moments.dtos.ErrorDto;
+import com.factoria.moments.exceptions.BadRequestException;
 import com.factoria.moments.exceptions.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,14 @@ public class ControllerAdvice {
         return new ResponseEntity<>(error, ex.getHttpStatus());
     }
 
-
+    @ExceptionHandler(value= BadRequestException.class)
+    public ResponseEntity<ErrorDto> BadRequestException(BadRequestException ex){
+        var error= ErrorDto.builder()
+                .code(ex.getCode())
+                .message(ex.getMessage())
+                .build();
+        return new ResponseEntity<>(error, ex.getHttpStatus());
+    }
 
 
 
