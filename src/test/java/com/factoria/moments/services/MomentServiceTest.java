@@ -43,10 +43,13 @@ class MomentServiceTest {
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var momentList = List.of(new Moment(), new Moment());
+        var user = new User();
+        user.setId(1L);
+
         Mockito.when(momentRepository.findAll()).thenReturn(momentList);
 
         // SYSTEM UNDER TEST(Es igual que un RESULT).
-        var sut = momentService.getAll();
+        var sut = momentService.getAll(user);
         assertThat(sut.size(), equalTo(2));
     }
 
@@ -55,12 +58,14 @@ class MomentServiceTest {
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var moment = this.createMoment();
+        var user = new User();
+        user.setId(1L);
 
         Mockito.when(momentRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
 
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         // sut és el nom del test abans del should
-        var sut = momentService.getById(1L);
+        var sut = momentService.getById(1L, user);
 
         //THEN
         assertThat(sut.getTitle(), equalTo(moment.getTitle()));
@@ -92,7 +97,7 @@ class MomentServiceTest {
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         Mockito.when(momentRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
 
-        var sut = momentService.delete(1L, user);
+        var sut = momentService.delete(1L,user);
 
         //THEN
         assertThat(sut, equalTo(true));

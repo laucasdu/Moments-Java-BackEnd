@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface IMomentService {
 
+
+    Moment getWholeMoment (Long id);
     List<MomentResponseDto> getAll(User authUser);
 
 //    Moment findById(Long id);
@@ -21,5 +23,5 @@ public interface IMomentService {
 
     Moment update(MomentRequestDto newMoment, Long id, User authUser);
 
-    Moment getById(Long id);
+    MomentResponseDto getById(Long id, User authUser);
 }

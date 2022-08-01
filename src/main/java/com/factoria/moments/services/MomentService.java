@@ -22,6 +22,10 @@ public class MomentService implements IMomentService {
         this.momentRepository = momentRepository;
     }
 
+    //funció que agafi totes les caracteristiques del moment sencer.
+    public Moment getWholeMoment(Long id){
+        return momentRepository.findById(id).get();
+    }
 
     @Override
     public List<MomentResponseDto> getAll(User authUser) {
@@ -73,11 +77,11 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public Moment getById(Long id) {
-        System.out.println(id);
+    public MomentResponseDto getById(Long id, User authUser) {
         var opMoment = momentRepository.findById(id);
         if(opMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-153");
-        return opMoment.get();
+        MomentResponseDto responseMoment = new MomentMapper().mapMomentToMomentResponseDto(opMoment.get(),authUser);
+        return responseMoment;
     }
 
 

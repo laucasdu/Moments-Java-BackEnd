@@ -8,6 +8,7 @@ import com.factoria.moments.repositories.ILikeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class LikeService implements ILikeService {
@@ -34,14 +35,37 @@ public class LikeService implements ILikeService {
     }
 
     @Override
-    public Like createLike(LikeRequestDto requestDto, User authUser) {
-        var moment = momentService.getById(requestDto.getMomentId());
+    public Boolean toggleLike(LikeRequestDto requestDto, User authUser) {
+        var moment = momentService.getById(requestDto.getMomentId(), authUser);
         if (moment.getCreator()==authUser) throw new BadRequestException("el creator no pot donar like al seu propi moment", "L-120" );
         var like = new Like();
         like.setLover(authUser);
-        like.setMoment(moment);
-        return likeRepository.save(like);
+        like.setMoment(momentService.getWholeMoment(moment.getId()));
+
+        var checkedLike = this.checkIfLikeAllreadyExists(like);
+        if (checkedLike.isPresent()){
+            return this.dislike(checkedLike.get());
+        }
+
+        return this.like(like);
     }
+
+    private Boolean like(Like like) {
+        likeRepository.save(like);
+        return true;
+    }
+
+    private Boolean dislike(Like like) {
+        likeRepository.delete(like);
+        return false;
+    }
+
+    public Optional<Like> checkIfLikeAllreadyExists(Like like){
+        List<Like> likes = likeRepository.findByMomentId(like.getMoment().getId());
+        return likes.stream().filter(Like -> Like.getLover()==like.getLover()).findFirst();
+
+    }
+
 
     @Override
     public Like getById(Long id) {
