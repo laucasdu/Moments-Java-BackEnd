@@ -28,6 +28,10 @@ public class LikeService implements ILikeService {
         return likeRepository.findAll();
 
     }
+    @Override
+    public Like getById(Long id) {
+        return likeRepository.findById(id).get();
+    }
 
     @Override
     public  List<Like> getAllByMomentId(Long id) {
@@ -50,6 +54,11 @@ public class LikeService implements ILikeService {
         return this.like(like);
     }
 
+    public Optional<Like> checkIfLikeAllreadyExists(Like like){
+        List<Like> likes = likeRepository.findByMomentId(like.getMoment().getId());
+        return likes.stream().filter(Like -> Like.getLover()==like.getLover()).findFirst();
+
+    }
     private Boolean like(Like like) {
         likeRepository.save(like);
         return true;
@@ -60,16 +69,8 @@ public class LikeService implements ILikeService {
         return false;
     }
 
-    public Optional<Like> checkIfLikeAllreadyExists(Like like){
-        List<Like> likes = likeRepository.findByMomentId(like.getMoment().getId());
-        return likes.stream().filter(Like -> Like.getLover()==like.getLover()).findFirst();
-
-    }
 
 
-    @Override
-    public Like getById(Long id) {
-        return likeRepository.findById(id).get();
-    }
+
 
 }

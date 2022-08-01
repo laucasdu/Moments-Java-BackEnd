@@ -27,6 +27,10 @@ public class CommentController {
         this.userService = userService;
     }
 
+    private User getAuthUser() {
+        return userService.getById(1L);
+    }
+
     @GetMapping("/comments")
     List<Comment> getAll(){
         return commentService.findAll();
@@ -43,9 +47,7 @@ public class CommentController {
         return commentService.create(commentRequestDto, authUser);
     }
 
-    private User getAuthUser() {
-        return userService.getById(1L);
-    }
+
 
 
 }

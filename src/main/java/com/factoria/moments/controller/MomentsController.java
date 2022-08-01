@@ -25,6 +25,10 @@ public class MomentsController {
         this.userService = userService;
     }
 
+    private User getAutUser() {
+        return userService.getById(1L);
+    }
+
 
     @GetMapping("/moments")
     ResponseEntity <List<MomentResponseDto>> getAll() {
@@ -33,11 +37,6 @@ public class MomentsController {
         return new ResponseEntity<>(moments, HttpStatus.OK);
     }
 
-
-//    @GetMapping("/moments/{id}")
-//    Moment getById(@PathVariable Long id) {
-//        return momentService.findById(id);
-//    }
 
     // Get moment id amb control d'errors
     @GetMapping("/moments/{id}")
@@ -48,36 +47,33 @@ public class MomentsController {
     }
 
 
-
-
    @PostMapping("/moments")
-   Moment create(@RequestBody MomentRequestDto newMoment){
+   ResponseEntity<MomentResponseDto> create(@RequestBody MomentRequestDto newMoment){
         var authUser = getAutUser();
-        return momentService.create(newMoment, authUser);
+        MomentResponseDto moment = momentService.create(newMoment,authUser);
+        return new ResponseEntity<>(moment,HttpStatus.OK);
    }
 
-    private User getAutUser() {
-        return userService.getById(1L);
-    }
-
-
     @PutMapping("/moments/{id}")
-    Moment update(@RequestBody MomentRequestDto update, @PathVariable Long id){
+    ResponseEntity<MomentResponseDto> update(@RequestBody MomentRequestDto update, @PathVariable Long id){
         var authUser = getAutUser();
-        Moment moment = momentService.update(update, id, authUser);
-        return moment;
+        MomentResponseDto moment = momentService.update(update, id, authUser);
+        return new ResponseEntity<>(moment,HttpStatus.OK);
     }
 
 
     @DeleteMapping("/moments/{id}")
-    boolean delete(@PathVariable Long id){
+    ResponseEntity<MomentResponseDto> delete(@PathVariable Long id){
         var authUser = getAutUser();
-        return momentService.delete(id, authUser);
+        var moment = momentService.delete(id,authUser);
+        return new ResponseEntity<>(moment, HttpStatus.OK);
     }
 
     @GetMapping(value="/moments", params="search")
-        List<Moment> getBySearch(@RequestParam String search){
-        return momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search);
+    ResponseEntity<List<MomentResponseDto>> getBySearch(@RequestParam String search){
+        var authUser = getAutUser();
+        var searched = momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search, authUser);
+        return new ResponseEntity<>(searched, HttpStatus.OK);
     }
 
 

@@ -43,13 +43,13 @@ class MomentServiceTest {
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var momentList = List.of(new Moment(), new Moment());
-        var user = new User();
-        user.setId(1L);
+        var authUser = new User();
+        authUser.setId(1L);
 
         Mockito.when(momentRepository.findAll()).thenReturn(momentList);
 
         // SYSTEM UNDER TEST(Es igual que un RESULT).
-        var sut = momentService.getAll(user);
+        var sut = momentService.getAll(authUser);
         assertThat(sut.size(), equalTo(2));
     }
 
@@ -58,14 +58,14 @@ class MomentServiceTest {
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var moment = this.createMoment();
-        var user = new User();
-        user.setId(1L);
+        var authUser = new User();
+        authUser.setId(1L);
 
         Mockito.when(momentRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
 
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         // sut és el nom del test abans del should
-        var sut = momentService.getById(1L, user);
+        var sut = momentService.getById(1L, authUser);
 
         //THEN
         assertThat(sut.getTitle(), equalTo(moment.getTitle()));
@@ -73,7 +73,15 @@ class MomentServiceTest {
 
     @Test
     void createShouldSaveAMomentFromRequestDTO() {
+        var momentService = new MomentService(momentRepository);
+        var momentRequest = new MomentRequestDto("title", "imgUrl","description", 1L);
+        var moment = this.createMoment();
 
+        Mockito.when(momentRepository.save(any(Moment.class))).thenReturn(moment);
+
+        var sut = momentService.create(momentRequest, moment.getCreator());
+
+        assertThat(sut.getCreator(), equalTo(moment.getCreator()));
     }
 
 
@@ -81,41 +89,55 @@ class MomentServiceTest {
 
     @Test
     void updateMomentShouldModifyAMomentFromRequestDTO() {
+        var momentService = new MomentService(momentRepository);
+        var momentRequest = new MomentRequestDto("title", "description", "image", 1L);
+        var moment = this.createMoment();
 
+        Mockito.when(momentRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
+        Mockito.when(momentRepository.save(any(Moment.class))).thenReturn(moment);
+
+        var sut = momentService.update(momentRequest, 1L, moment.getCreator()); // sut és el nom del test abans del should
+
+        assertThat(sut.getTitle(), equalTo(momentRequest.getTitle()));
+        /*assertThat(sut.getTitle(), equalTo("HelloWorld")); FAILED TEST */
 
     }
 
 
 
     @Test
-    void deleteByIdShouldDeleteAMomentById() {
+    void deleteShouldReturnDeleteMoment() {
+
         //GIVEN
         var momentService = new MomentService(momentRepository);
         var moment = this.createMoment(); // si no tens això cal que cada vegada creis el moment i el user
-        var user = new User();
-        user.setId(1L);
+        Long deletedId = 1L;
+
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         Mockito.when(momentRepository.findById(any(Long.class))).thenReturn(Optional.of(moment));
 
-        var sut = momentService.delete(1L,user);
+        var sut = momentService.delete(deletedId,moment.getCreator());
+        assertThat(sut.getDescription(), equalTo(moment.getDescription()));
 
         //THEN
-        assertThat(sut, equalTo(true));
+//        assertThat(sut, equalTo(true));
         //assertThat(sut, equalTo(false));
 
     }
 
-
+    //test no funciona
     @Test
     void findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase() {
         //GIVEN
         var momentService = new MomentService(momentRepository);
+        Moment moment = this.createMoment();
+        var authUser = new User();
+        authUser.setId(1L);
         var momentList = List.of(new Moment());
-
         // SYSTEM UNDER TEST(Es igual que un RESULT).
         Mockito.when(momentRepository.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase("search")).thenReturn(momentList);
 
-        var sut = momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase("search");
+        var sut = momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase("search", authUser);
 
         //THEN
         assertThat(sut, equalTo(momentList));

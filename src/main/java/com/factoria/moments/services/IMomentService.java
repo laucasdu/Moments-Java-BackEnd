@@ -13,15 +13,15 @@ public interface IMomentService {
     Moment getWholeMoment (Long id);
     List<MomentResponseDto> getAll(User authUser);
 
-//    Moment findById(Long id);
-
-    Moment create(MomentRequestDto newMoment, User auth);
-
-    boolean delete(Long id, User authUser);
-
-    List<Moment> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search);
-
-    Moment update(MomentRequestDto newMoment, Long id, User authUser);
-
     MomentResponseDto getById(Long id, User authUser);
+
+    MomentResponseDto create(MomentRequestDto newMoment, User authUser);
+
+    MomentResponseDto update(MomentRequestDto newMoment, Long id, User authUser);
+
+    MomentResponseDto delete(Long id, User authUser);
+
+    List<MomentResponseDto> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search, User authUser);
+
+
 }

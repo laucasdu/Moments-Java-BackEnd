@@ -34,33 +34,27 @@ public class LikeController {
         return new ResponseEntity<>(like,HttpStatus.OK);
     }
 
-    @GetMapping("/likes/{id}")
-    ResponseEntity<Like> getById(@PathVariable Long id) {
-        var likes = likeService.getById(id);
-        return new ResponseEntity<>(likes,HttpStatus.OK);
-    }
-
     @GetMapping("/moments/{id}/likes")
     ResponseEntity<List<Like>>getMomentLikes(@PathVariable Long id) {
         var like = likeService.getAllByMomentId(id);
         return new ResponseEntity<>(like,HttpStatus.OK);
     }
 
-
-
-    @PostMapping("/likes")
-    ResponseEntity<Boolean> create(@RequestBody LikeRequestDto requestDto){
-        var authUser = this.getAuthUser(requestDto.getUserId());
-        var like = likeService.toggleLike(requestDto, authUser);
-        return new ResponseEntity<>(like, HttpStatus.OK);
-
+    @GetMapping("/likes/{id}")
+    ResponseEntity<Like> getById(@PathVariable Long id) {
+        var likes = likeService.getById(id);
+        return new ResponseEntity<>(likes,HttpStatus.OK);
     }
 
 
-//    @DeleteMapping("/likes/{id}")
-//    boolean delete(@PathVariable Long id){
-//        return likeService.delete(id);
-//    }
+    @PostMapping("/likes")
+    ResponseEntity<Boolean> create(@RequestBody LikeRequestDto like){
+        User authUser = this.getAuthUser(1L);
+        var isLiked = likeService.toggleLike(like, authUser);
+        return new ResponseEntity<>(isLiked, HttpStatus.OK);
+
+    }
+
 
 
 }

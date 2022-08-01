@@ -9,6 +9,7 @@ import com.factoria.moments.mappers.MomentMapper;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,49 +33,6 @@ public class MomentService implements IMomentService {
         return new MomentMapper().mapMultipleMomentToListResponse(momentRepository.findAll(),authUser);
     }
 
-//    @Override
-//    public Moment findById(Long id) {
-//        return momentRepository.findById(id).get();
-//    }
-
-    @Override
-    public Moment create(MomentRequestDto momentRequestDto, User auth) {
-        var newMoment = new Moment();
-        newMoment.setTitle(momentRequestDto.getTitle());
-        newMoment.setImgUrl(momentRequestDto.getImgUrl());
-        newMoment.setDescription(momentRequestDto.getDescription());
-        newMoment.setCreator(auth);
-        //System.out.println(auth);
-        return momentRepository.save(newMoment);
-
-    }
-
-
-    @Override
-    public boolean delete(Long id, User authUser) {
-        var moment= momentRepository.findById(id);
-        if (moment.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
-        if (moment.get().getCreator()!=authUser) throw new BadRequestException("Only the creator can update his moment", "M-008");
-        this.momentRepository.delete(moment.get());
-        return true;
-    }
-
-    @Override
-    public List<Moment> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search) {
-        return momentRepository.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search);
-    }
-
-    @Override
-    public Moment update(MomentRequestDto momentRequestDto, Long id, User authUser) {
-        var momentEdit = momentRepository.findById(id);
-        if (momentEdit.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
-        if (momentEdit.get().getCreator()!=authUser) throw new BadRequestException("Only the creator can update his moment", "M-008");
-        momentEdit.get().setTitle(momentRequestDto.getTitle());
-        momentEdit.get().setImgUrl(momentRequestDto.getImgUrl());
-        momentEdit.get().setDescription(momentRequestDto.getDescription());
-        return momentRepository.save(momentEdit.get());
-
-    }
 
     @Override
     public MomentResponseDto getById(Long id, User authUser) {
@@ -82,6 +40,48 @@ public class MomentService implements IMomentService {
         if(opMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-153");
         MomentResponseDto responseMoment = new MomentMapper().mapMomentToMomentResponseDto(opMoment.get(),authUser);
         return responseMoment;
+    }
+
+
+    @Override
+    public MomentResponseDto create(MomentRequestDto momentRequestDto, User authUser) {
+        var newMoment = new Moment();
+        newMoment.setTitle(momentRequestDto.getTitle());
+        newMoment.setImgUrl(momentRequestDto.getImgUrl());
+        newMoment.setDescription(momentRequestDto.getDescription());
+        newMoment.setCreator(authUser);
+        momentRepository.save(newMoment);
+        return new MomentMapper().mapMomentToMomentResponseDto(newMoment,authUser);
+
+    }
+
+    @Override
+    public MomentResponseDto update(MomentRequestDto momentRequestDto, Long id, User authUser) {
+        var momentEdit = momentRepository.findById(id);
+        if (momentEdit.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
+        if (momentEdit.get().getCreator()!=authUser) throw new BadRequestException("Incorrect User", "M-008");
+        momentEdit.get().setTitle(momentRequestDto.getTitle());
+        momentEdit.get().setImgUrl(momentRequestDto.getImgUrl());
+        momentEdit.get().setDescription(momentRequestDto.getDescription());
+        momentRepository.save(momentEdit.get());
+        return new MomentMapper().mapMomentToMomentResponseDto(momentEdit.get(),authUser);
+    }
+
+    @Override
+    public MomentResponseDto delete(Long id, User authUser) {
+        var moment= momentRepository.findById(id);
+        if (moment.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
+        if (moment.get().getCreator()!=authUser) throw new BadRequestException("Incorrect User", "M-008");
+        momentRepository.delete(moment.get());
+        return new MomentMapper().mapMomentToMomentResponseDto(moment.get(),authUser);
+    }
+
+
+
+    @Override
+    public List<MomentResponseDto> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search, User authUser) {
+        var searched = momentRepository.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search);
+        return new MomentMapper().mapMultipleMomentToListResponse(searched, authUser);
     }
 
 
