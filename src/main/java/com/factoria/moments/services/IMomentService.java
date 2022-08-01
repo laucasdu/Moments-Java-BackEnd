@@ -1,6 +1,7 @@
 package com.factoria.moments.services;
 
 import com.factoria.moments.dtos.MomentRequestDto;
+import com.factoria.moments.dtos.MomentResponseDto;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 public interface IMomentService {
 
-    List<Moment> getAll(User authUser);
+    List<MomentResponseDto> getAll(User authUser);
 
 //    Moment findById(Long id);
 

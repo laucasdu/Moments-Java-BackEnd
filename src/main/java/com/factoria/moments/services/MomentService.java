@@ -2,8 +2,10 @@ package com.factoria.moments.services;
 
 
 import com.factoria.moments.dtos.MomentRequestDto;
+import com.factoria.moments.dtos.MomentResponseDto;
 import com.factoria.moments.exceptions.BadRequestException;
 import com.factoria.moments.exceptions.NotFoundException;
+import com.factoria.moments.mappers.MomentMapper;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
@@ -22,8 +24,8 @@ public class MomentService implements IMomentService {
 
 
     @Override
-    public List<Moment> getAll(User authUser) {
-        return momentRepository.findAll();
+    public List<MomentResponseDto> getAll(User authUser) {
+        return new MomentMapper().mapMultipleMomentToListResponse(momentRepository.findAll(),authUser);
     }
 
 //    @Override

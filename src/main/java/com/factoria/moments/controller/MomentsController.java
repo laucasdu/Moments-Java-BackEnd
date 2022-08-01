@@ -1,6 +1,7 @@
 package com.factoria.moments.controller;
 
 import com.factoria.moments.dtos.MomentRequestDto;
+import com.factoria.moments.dtos.MomentResponseDto;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.services.IMomentService;
@@ -26,9 +27,10 @@ public class MomentsController {
 
 
     @GetMapping("/moments")
-    List<Moment> getAll() {
+    ResponseEntity <List<MomentResponseDto>> getAll() {
         var authUser = getAutUser();
-        return momentService.getAll(authUser);
+        var moments = momentService.getAll(authUser);
+        return new ResponseEntity<>(moments, HttpStatus.OK);
     }
 
 
