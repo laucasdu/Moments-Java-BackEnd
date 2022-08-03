@@ -4,6 +4,7 @@ import com.factoria.moments.dtos.MomentRequestDto;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -22,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MomentServiceTest {
+    @BeforeEach
+    // crea el momentService aqui perque no peti
 
     @Mock
     IMomentRepository momentRepository;

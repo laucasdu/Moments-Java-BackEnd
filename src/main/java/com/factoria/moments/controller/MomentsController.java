@@ -37,7 +37,7 @@ public class MomentsController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments")
     ResponseEntity <List<MomentResponseDto>> getAll() {
-        var authUser = getAutUser(); // consultar si s'ha de posar
+        var authUser = authenticationFacade.getAuthUser(); // consultar si s'ha de posar
         var moments = momentService.getAll(authUser);
         return new ResponseEntity<>(moments, HttpStatus.OK);
     }

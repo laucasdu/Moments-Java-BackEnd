@@ -21,7 +21,7 @@ public interface IMomentService {
 
     Boolean delete(Long id, User authUser);
 
-    List<MomentResponseDto> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search, User authUser);
+    List<MomentResponseDto> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search,User authUser);
 
 
 }

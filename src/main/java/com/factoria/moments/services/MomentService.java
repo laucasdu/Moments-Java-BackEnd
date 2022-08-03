@@ -1,6 +1,7 @@
 package com.factoria.moments.services;
 
 
+import com.factoria.moments.auth.facade.IAuthenticationFacade;
 import com.factoria.moments.dtos.MomentRequestDto;
 import com.factoria.moments.dtos.MomentResponseDto;
 import com.factoria.moments.exceptions.BadRequestException;
@@ -16,9 +17,11 @@ import java.util.List;
 @Service
 public class MomentService implements IMomentService {
     private IMomentRepository momentRepository;
+    private IAuthenticationFacade authenticationFacade;
 
-    public MomentService(IMomentRepository momentRepository) {
+    public MomentService(IMomentRepository momentRepository, IAuthenticationFacade authenticationFacade) {
         this.momentRepository = momentRepository;
+        this.authenticationFacade = authenticationFacade;
     }
 
     //funció que agafi totes les caracteristiques del moment sencer.
