@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class LikeRequestDto {
-    private Long userId;
+//    private Long userId;
     private Long momentId;
 
 }

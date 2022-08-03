@@ -17,16 +17,11 @@ public class LikeController {
 
     //ATRIBUTS
     private ILikeService likeService;
-    private IUserService userService;
 
-    public LikeController(ILikeService likeService, IUserService userService) {
+    public LikeController(ILikeService likeService) {
         this.likeService = likeService;
-        this.userService = userService;
     }
 
-    private User getAuthUser(Long id){
-        return userService.getById(id);
-    }
 
     @GetMapping("/likes")
     ResponseEntity<List<Like>> getAll() {
@@ -49,8 +44,7 @@ public class LikeController {
 
     @PostMapping("/likes")
     ResponseEntity<Boolean> create(@RequestBody LikeRequestDto like){
-        User authUser = this.getAuthUser(1L);
-        var isLiked = likeService.toggleLike(like, authUser);
+        var isLiked = likeService.toggleLike(like);
         return new ResponseEntity<>(isLiked, HttpStatus.OK);
 
     }

@@ -9,7 +9,7 @@ public class MomentRequestDto {
     private String title;
     private String imgUrl;
     private String description;
-    private Long userId;
+//    private Long userId;
 
 
 }

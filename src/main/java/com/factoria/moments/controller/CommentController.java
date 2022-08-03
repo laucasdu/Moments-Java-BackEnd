@@ -47,6 +47,7 @@ public class CommentController {
     List<Comment> getAllByMomentsId(@PathVariable Long id){
         return commentService.getAllByMomentsId(id);
     }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/comments")
     Comment create(@RequestBody CommentRequestDto commentRequestDto){

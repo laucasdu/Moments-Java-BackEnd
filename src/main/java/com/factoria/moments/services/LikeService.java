@@ -1,5 +1,6 @@
 package com.factoria.moments.services;
 
+import com.factoria.moments.auth.facade.IAuthenticationFacade;
 import com.factoria.moments.dtos.LikeRequestDto;
 import com.factoria.moments.exceptions.BadRequestException;
 import com.factoria.moments.models.Like;
@@ -15,12 +16,14 @@ public class LikeService implements ILikeService {
 
     private ILikeRepository likeRepository;
     private IMomentService momentService;
-    private IUserService userService;
+//    private IUserService userService;
 
-    public LikeService(ILikeRepository likeRepository, IMomentService momentService, IUserService userService) {
+    private IAuthenticationFacade authenticationFacade;
+
+    public LikeService(ILikeRepository likeRepository, IMomentService momentService, IAuthenticationFacade authenticationFacade) {
         this.likeRepository = likeRepository;
         this.momentService = momentService;
-        this.userService = userService;
+        this.authenticationFacade = authenticationFacade;
     }
 
     @Override
@@ -39,12 +42,13 @@ public class LikeService implements ILikeService {
     }
 
     @Override
-    public Boolean toggleLike(LikeRequestDto requestDto, User authUser) {
-        var moment = momentService.getById(requestDto.getMomentId(), authUser);
-        if (moment.getCreator()==authUser) throw new BadRequestException("el creator no pot donar like al seu propi moment", "L-120" );
+    public Boolean toggleLike(LikeRequestDto requestDto) {
+        var liker = authenticationFacade.getAuthUser();
+        var moment = momentService.getWholeMoment(requestDto.getMomentId());
+        if (moment.getCreator()==liker) throw new BadRequestException("el creator no pot donar like al seu propi moment", "L-120" );
         var like = new Like();
-        like.setLover(authUser);
-        like.setMoment(momentService.getWholeMoment(moment.getId()));
+        like.setLover(liker);
+        like.setMoment(moment);
 
         var checkedLike = this.checkIfLikeAllreadyExists(like);
         if (checkedLike.isPresent()){
