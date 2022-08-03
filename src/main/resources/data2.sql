@@ -4,7 +4,7 @@ INTO
   users
   (user_Name, user_Img)
 VALUES
- ('ADVENTURER', 'https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg');
+ ('Adventurer', 'https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg');
 
 
 INSERT
@@ -12,7 +12,7 @@ INTO
   users
   (user_Name, user_Img)
 VALUES
-  ('Laura', 'https://static.vecteezy.com/system/resources/previews/001/993/889/non_2x/beautiful-latin-woman-avatar-character-icon-free-vector.jpg');
+  ('Traveller', 'https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg');
 
 
 INSERT

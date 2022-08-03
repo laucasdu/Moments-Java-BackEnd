@@ -1,13 +1,16 @@
 package com.factoria.moments.controller;
 
+import com.factoria.moments.auth.facade.IAuthenticationFacade;
 import com.factoria.moments.dtos.MomentRequestDto;
 import com.factoria.moments.dtos.MomentResponseDto;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.services.IMomentService;
 import com.factoria.moments.services.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,20 +22,22 @@ public class MomentsController {
 
     private IMomentService momentService;
     private IUserService userService;
-
-    public MomentsController(IMomentService momentService, IUserService userService) {
+    private IAuthenticationFacade authenticationFacade;
+    @Autowired
+    public MomentsController(IMomentService momentService, IUserService userService, IAuthenticationFacade authenticationFacade) {
         this.momentService = momentService;
         this.userService = userService;
+        this.authenticationFacade = authenticationFacade;
     }
 
     private User getAutUser() {
         return userService.getById(1L);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments")
     ResponseEntity <List<MomentResponseDto>> getAll() {
-        var authUser = getAutUser();
+        var authUser = getAutUser(); // consultar si s'ha de posar
         var moments = momentService.getAll(authUser);
         return new ResponseEntity<>(moments, HttpStatus.OK);
     }
@@ -46,10 +51,10 @@ public class MomentsController {
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
    @PostMapping("/moments")
    ResponseEntity<MomentResponseDto> create(@RequestBody MomentRequestDto newMoment){
-        var authUser = getAutUser();
+        var authUser = authenticationFacade.getAuthUser(); // canviar por facade
         MomentResponseDto moment = momentService.create(newMoment,authUser);
         return new ResponseEntity<>(moment,HttpStatus.OK);
    }
