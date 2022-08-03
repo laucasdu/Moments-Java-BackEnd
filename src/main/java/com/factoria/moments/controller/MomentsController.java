@@ -42,11 +42,10 @@ public class MomentsController {
         return new ResponseEntity<>(moments, HttpStatus.OK);
     }
 
-
-    // Get moment id amb control d'errors
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments/{id}")
     ResponseEntity<MomentResponseDto> getById(@PathVariable Long id) {
-        var authUser = getAutUser();
+        var authUser = authenticationFacade.getAuthUser();
         MomentResponseDto moment = momentService.getById(id, authUser);
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
@@ -58,25 +57,25 @@ public class MomentsController {
         MomentResponseDto moment = momentService.create(newMoment,authUser);
         return new ResponseEntity<>(moment,HttpStatus.OK);
    }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/moments/{id}")
     ResponseEntity<MomentResponseDto> update(@RequestBody MomentRequestDto update, @PathVariable Long id){
-        var authUser = getAutUser();
+        var authUser = authenticationFacade.getAuthUser();
         MomentResponseDto moment = momentService.update(update, id, authUser);
         return new ResponseEntity<>(moment,HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping("/moments/{id}")
-    ResponseEntity<MomentResponseDto> delete(@PathVariable Long id){
-        var authUser = getAutUser();
+    ResponseEntity<Boolean> delete(@PathVariable Long id){
+        var authUser = authenticationFacade.getAuthUser();
         var moment = momentService.delete(id,authUser);
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value="/moments", params="search")
     ResponseEntity<List<MomentResponseDto>> getBySearch(@RequestParam String search){
-        var authUser = getAutUser();
+        var authUser = authenticationFacade.getAuthUser();
         var searched = momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search, authUser);
         return new ResponseEntity<>(searched, HttpStatus.OK);
     }

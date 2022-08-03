@@ -9,10 +9,8 @@ import com.factoria.moments.mappers.MomentMapper;
 import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -68,12 +66,12 @@ public class MomentService implements IMomentService {
     }
 
     @Override
-    public MomentResponseDto delete(Long id, User authUser) {
+    public Boolean delete(Long id, User authUser) {
         var moment= momentRepository.findById(id);
         if (moment.isEmpty()) throw new NotFoundException("Moment doesn't exist", "M-404");
         if (moment.get().getCreator()!=authUser) throw new BadRequestException("Incorrect User", "M-008");
         momentRepository.delete(moment.get());
-        return new MomentMapper().mapMomentToMomentResponseDto(moment.get(),authUser);
+        return true;
     }
 
 

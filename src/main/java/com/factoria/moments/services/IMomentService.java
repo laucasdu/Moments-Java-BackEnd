@@ -19,7 +19,7 @@ public interface IMomentService {
 
     MomentResponseDto update(MomentRequestDto newMoment, Long id, User authUser);
 
-    MomentResponseDto delete(Long id, User authUser);
+    Boolean delete(Long id, User authUser);
 
     List<MomentResponseDto> findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(String search, User authUser);
 
