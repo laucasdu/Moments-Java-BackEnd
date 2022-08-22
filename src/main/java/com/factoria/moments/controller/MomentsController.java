@@ -34,19 +34,15 @@ public class MomentsController {
         return userService.getById(1L);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments")
     ResponseEntity <List<MomentResponseDto>> getAll() {
-        var authUser = authenticationFacade.getAuthUser(); // consultar si s'ha de posar
-        var moments = momentService.getAll(authUser);
+        var moments = momentService.getAll();
         return new ResponseEntity<>(moments, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/moments/{id}")
     ResponseEntity<MomentResponseDto> getById(@PathVariable Long id) {
-        var authUser = authenticationFacade.getAuthUser();
-        MomentResponseDto moment = momentService.getById(id, authUser);
+        MomentResponseDto moment = momentService.getById(id);
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
 

@@ -16,8 +16,6 @@ public class LikeService implements ILikeService {
 
     private ILikeRepository likeRepository;
     private IMomentService momentService;
-//    private IUserService userService;
-
     private IAuthenticationFacade authenticationFacade;
 
     public LikeService(ILikeRepository likeRepository, IMomentService momentService, IAuthenticationFacade authenticationFacade) {
