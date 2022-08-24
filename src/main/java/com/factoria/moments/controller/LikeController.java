@@ -15,7 +15,7 @@ import java.util.List;
 @CrossOrigin(origins="*")
 public class LikeController {
 
-    //ATRIBUTS
+    //ATRIBUTOS
     private ILikeService likeService;
 
     public LikeController(ILikeService likeService) {
