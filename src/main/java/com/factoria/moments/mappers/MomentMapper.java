@@ -29,6 +29,25 @@ public class MomentMapper {
         return responseList;
     }
 
+    // qualsevol user
+    public MomentResponseDto mapMomentToMomentResponseDto(Moment moment){
+        var response = new MomentResponseDto();
+        response.setId(moment.getId());
+        response.setImgUrl(moment.getImgUrl());
+        response.setTitle(moment.getTitle());
+        response.setDescription(moment.getDescription());
 
+        response.setCreator(moment.getCreator());
+        response.setCommentCount(moment.commentCount());
+        response.setLikesCount(moment.likesCount());
+        return response;
+
+    }
+
+    public List<MomentResponseDto> mapMultipleMomentToListResponse(List<Moment> momentList){
+        List<MomentResponseDto> responseList = new ArrayList<>();
+        momentList.forEach(Moment -> responseList.add(this.mapMomentToMomentResponseDto(Moment)));
+        return responseList;
+    }
 
 }

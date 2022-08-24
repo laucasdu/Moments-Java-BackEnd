@@ -43,9 +43,9 @@ public class LikeService implements ILikeService {
     public Boolean toggleLike(LikeRequestDto requestDto) {
         var liker = authenticationFacade.getAuthUser();
         var moment = momentService.getWholeMoment(requestDto.getMomentId());
-        if (moment.getCreator()==liker) throw new BadRequestException("el creator no pot donar like al seu propi moment", "L-120" );
+        if (moment.getCreator()==liker.get()) throw new BadRequestException("el creator no pot donar like al seu propi moment", "L-120" );
         var like = new Like();
-        like.setLover(liker);
+        like.setLover(liker.get());
         like.setMoment(moment);
 
         var checkedLike = this.checkIfLikeAllreadyExists(like);

@@ -50,14 +50,14 @@ public class MomentsController {
    @PostMapping("/moments")
    ResponseEntity<MomentResponseDto> create(@RequestBody MomentRequestDto newMoment){
         var authUser = authenticationFacade.getAuthUser(); // canviar por facade
-        MomentResponseDto moment = momentService.create(newMoment,authUser);
+        MomentResponseDto moment = momentService.create(newMoment,authUser.get());
         return new ResponseEntity<>(moment,HttpStatus.OK);
    }
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/moments/{id}")
     ResponseEntity<MomentResponseDto> update(@RequestBody MomentRequestDto update, @PathVariable Long id){
         var authUser = authenticationFacade.getAuthUser();
-        MomentResponseDto moment = momentService.update(update, id, authUser);
+        MomentResponseDto moment = momentService.update(update, id, authUser.get());
         return new ResponseEntity<>(moment,HttpStatus.OK);
     }
 
@@ -65,14 +65,14 @@ public class MomentsController {
     @DeleteMapping("/moments/{id}")
     ResponseEntity<Boolean> delete(@PathVariable Long id){
         var authUser = authenticationFacade.getAuthUser();
-        var moment = momentService.delete(id,authUser);
+        var moment = momentService.delete(id,authUser.get());
         return new ResponseEntity<>(moment, HttpStatus.OK);
     }
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(value="/moments", params="search")
     ResponseEntity<List<MomentResponseDto>> getBySearch(@RequestParam String search){
         var authUser = authenticationFacade.getAuthUser();
-        var searched = momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search, authUser);
+        var searched = momentService.findByDescriptionContainsIgnoreCaseOrTitleContainsIgnoreCase(search, authUser.get());
         return new ResponseEntity<>(searched, HttpStatus.OK);
     }
 

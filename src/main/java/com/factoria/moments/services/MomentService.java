@@ -31,7 +31,9 @@ public class MomentService implements IMomentService {
 
     @Override
     public List<MomentResponseDto> getAll() {
-        return new MomentMapper().mapMultipleMomentToListResponse(momentRepository.findAll(), this.authenticationFacade.getAuthUser());
+        var authUser = authenticationFacade.getAuthUser();
+        if(authUser.isEmpty()) return new MomentMapper().mapMultipleMomentToListResponse(momentRepository.findAll());
+        return new MomentMapper().mapMultipleMomentToListResponse(momentRepository.findAll(), authUser.get());
     }
 
 
@@ -39,7 +41,7 @@ public class MomentService implements IMomentService {
     public MomentResponseDto getById(Long id) {
         var opMoment = momentRepository.findById(id);
         if(opMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-153");
-        MomentResponseDto responseMoment = new MomentMapper().mapMomentToMomentResponseDto(opMoment.get(), this.authenticationFacade.getAuthUser());
+        MomentResponseDto responseMoment = new MomentMapper().mapMomentToMomentResponseDto(opMoment.get(), this.authenticationFacade.getAuthUser().get());
         return responseMoment;
     }
 

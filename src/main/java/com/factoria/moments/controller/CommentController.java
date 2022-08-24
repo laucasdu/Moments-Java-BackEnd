@@ -52,7 +52,7 @@ public class CommentController {
     @PostMapping("/comments")
     Comment create(@RequestBody CommentRequestDto commentRequestDto){
         var authUser = authenticationFacade.getAuthUser();
-        return commentService.create(commentRequestDto, authUser);
+        return commentService.create(commentRequestDto, authUser.get());
     }
 
 
