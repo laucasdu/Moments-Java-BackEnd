@@ -52,7 +52,9 @@ public class MomentsController {
         var authUser = authenticationFacade.getAuthUser(); // canviar por facade
         MomentResponseDto moment = momentService.create(newMoment,authUser.get());
         return new ResponseEntity<>(moment,HttpStatus.OK);
+
    }
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @PutMapping("/moments/{id}")
     ResponseEntity<MomentResponseDto> update(@RequestBody MomentRequestDto update, @PathVariable Long id){

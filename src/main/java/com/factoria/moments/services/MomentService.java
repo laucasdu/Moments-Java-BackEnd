@@ -49,6 +49,7 @@ public class MomentService implements IMomentService {
 
     @Override
     public MomentResponseDto create(MomentRequestDto momentRequestDto, User authUser) {
+        System.out.println(authUser);
         var newMoment = new Moment();
         newMoment.setTitle(momentRequestDto.getTitle());
         newMoment.setImgUrl(momentRequestDto.getImgUrl());

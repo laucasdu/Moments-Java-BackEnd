@@ -8,8 +8,10 @@ import com.factoria.moments.repositories.IUserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
+import javax.management.relation.Relation;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class SeedDataService { //quan s'engega l'aplicació s'injecta el seed
@@ -31,31 +33,21 @@ public class SeedDataService { //quan s'engega l'aplicació s'injecta el seed
     public void createUser() {
         Set<Role> userRoles = Set.of(roleRepository.findByName(Role.RoleName.ROLE_USER).get());
 
-//        if (!momentRepository.findAll().isEmpty()) return;
-
-//        var user = userRepository.findById(1L).get();
-//        var moment = new Moment();
-//        moment.setCreator(user);
-//        moment.setTitle("te");
-//        moment.setDescription("testDescription");
-//        moment.setImgUrl("https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg");
-//        momentRepository.save(moment);
-
         var vera = new User();
-        vera.setUsername("vera");
+        vera.setRoles(roleRepository.findAll().stream().collect(Collectors.toSet()));
+        vera.setUsername("VERA");
         vera.setEmail("vera@gmail.com");
-        vera.setUserImg("https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg");
+        vera.setUserImg("https://thumbs.dreamstime.com/z/smiling-girl-avatar-cute-woman-flat-icon-white-background-person-s-character-vector-illustration-eps-191715188.jpg");
         vera.setPassword(encoder.encode("12345678"));
 
         var gala = new User();
-        gala.setUsername("gala");
+        gala.setRoles(roleRepository.findAll().stream().collect(Collectors.toSet()));
+        gala.setUsername("GALA");
         gala.setEmail("gala@gmail.com");
-        gala.setUserImg("https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg");
+        gala.setUserImg("https://thumbs.dreamstime.com/z/smiling-girl-avatar-cute-woman-flat-icon-white-background-person-s-character-vector-illustration-eps-191715956.jpg");
         gala.setPassword(encoder.encode("12345678"));
 
-
         userRepository.saveAll(List.of(vera, gala));
-
 
     }
 
@@ -71,17 +63,6 @@ public class SeedDataService { //quan s'engega l'aplicació s'injecta el seed
 //        moment.setDescription("testDescription");
 //        moment.setImgUrl("https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg");
 //        momentRepository.save(moment);
-//
-//
-//
-//        var gala = userRepository.findById(1L).get();
-//        var moment1 = new Moment();
-//        moment1.setCreator(gala);
-//        moment1.setTitle("te");
-//        moment1.setDescription("testDescription");
-//        moment1.setImgUrl("https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg");
-//        momentRepository.save(moment1);
-//
 //
 //
 //    }
