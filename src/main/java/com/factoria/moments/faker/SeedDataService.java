@@ -1,12 +1,10 @@
 package com.factoria.moments.faker;
 
-import com.factoria.moments.models.Moment;
 import com.factoria.moments.models.Role;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.IMomentRepository;
-import com.factoria.moments.repositories.IRoleRepository;
+import com.factoria.moments.repositories.RoleRepository;
 import com.factoria.moments.repositories.IUserRepository;
-import com.factoria.moments.services.IUserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
@@ -20,9 +18,9 @@ public class SeedDataService { //quan s'engega l'aplicació s'injecta el seed
     private IUserRepository userRepository;
     private PasswordEncoder encoder;
 
-    private IRoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
-    public SeedDataService(IMomentRepository momentRepository, IUserRepository userRepository, PasswordEncoder encoder, IRoleRepository roleRepository) {
+    public SeedDataService(IMomentRepository momentRepository, IUserRepository userRepository, PasswordEncoder encoder, RoleRepository roleRepository) {
         this.momentRepository = momentRepository;
         this.userRepository = userRepository;
         this.encoder = encoder;

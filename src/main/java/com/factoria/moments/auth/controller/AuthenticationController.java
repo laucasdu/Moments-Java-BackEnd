@@ -4,7 +4,7 @@ import com.factoria.moments.auth.configuration.UserDetailsImplementation;
 import com.factoria.moments.models.Role;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.AuthRepository;
-import com.factoria.moments.repositories.IRoleRepository;
+import com.factoria.moments.repositories.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +28,7 @@ public class AuthenticationController {
 
     private final AuthRepository authRepository;
 
-    private final IRoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     private final PasswordEncoder encoder;
 
@@ -37,7 +37,7 @@ public class AuthenticationController {
     private final JwtUtils jwtUtils;
 
     @Autowired
-    public AuthenticationController(AuthRepository authRepository, IRoleRepository roleRepository, PasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
+    public AuthenticationController(AuthRepository authRepository, RoleRepository roleRepository, PasswordEncoder encoder, AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.authRepository = authRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
