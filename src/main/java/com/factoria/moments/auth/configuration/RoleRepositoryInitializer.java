@@ -2,7 +2,7 @@ package com.factoria.moments.auth.configuration;
 import com.factoria.moments.models.Role;
 import com.factoria.moments.models.User;
 import com.factoria.moments.repositories.AuthRepository;
-import com.factoria.moments.repositories.RoleRepository;
+import com.factoria.moments.repositories.IRoleRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 @Component
 public class RoleRepositoryInitializer {
 
-    private RoleRepository roleRepository;
+    private IRoleRepository roleRepository;
     private AuthRepository authRepository;
     private PasswordEncoder encoder;
 
-    public RoleRepositoryInitializer(RoleRepository roleRepository, AuthRepository authRepository, PasswordEncoder encoder) {
+    public RoleRepositoryInitializer(IRoleRepository roleRepository, AuthRepository authRepository, PasswordEncoder encoder) {
         this.roleRepository = roleRepository;
         this.authRepository = authRepository;
         this.encoder = encoder;
@@ -46,7 +46,11 @@ public class RoleRepositoryInitializer {
         user.setEmail("admin@admin.com");
         user.setUsername("Admin");
         user.setPassword(encoder.encode("12345678"));
-
         authRepository.save(user);
-    }
+
+
 }
+
+
+}
+

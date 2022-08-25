@@ -16,6 +16,7 @@ import java.util.Set;
 public class User {
     @Id
     @GeneratedValue
+    @Column
 
     private Long id;
     private String username;

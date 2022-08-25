@@ -1,17 +1,5 @@
 
 
-
-INSERT
-INTO
-  users
-  (id, username, user_Img, email, password)
-VALUES
-  (NEXTVAL('hibernate_sequence'), 'Antonio', 'https://thumbs.dreamstime.com/b/cute-cartoon-character-girl-avatar-white-background-flat-vector-illustration-eps-cute-cartoon-character-girl-avatar-white-181634274.jpg', 'antonio@antonio.com', 12345678);
-
-
-
-
-
 INSERT
 INTO
   moments
@@ -31,21 +19,21 @@ INTO
   moments
   (img_Url, title, description, creator_id)
 VALUES
-  ('https://i.pinimg.com/originals/93/21/b2/9321b2e3f66b12777ff7e98a9860a597.jpg', 'Guitar', 'Nature', 2);
+  ('https://i.pinimg.com/originals/93/21/b2/9321b2e3f66b12777ff7e98a9860a597.jpg', 'Guitar', 'Nature', 3);
 
 INSERT
 INTO
   moments
   (img_Url, title, description, creator_id)
 VALUES
-  ('https://media.timeout.com/images/105856246/750/422/image.jpg', 'Slovenia', 'Predjama Castle', 1);
+  ('https://media.timeout.com/images/105856246/750/422/image.jpg', 'Slovenia', 'Predjama Castle', 2);
 
 INSERT
 INTO
   moments
   (img_Url, title, description, creator_id)
 VALUES
-  ('https://www.guiadealemania.com/wp-content/uploads/2009/08/selva-bach.jpg', 'Germany', 'Black Forest', 2);
+  ('https://www.guiadealemania.com/wp-content/uploads/2009/08/selva-bach.jpg', 'Germany', 'Black Forest', 3);
 
 INSERT
 INTO
@@ -59,7 +47,7 @@ INTO
   moments
   (img_Url, title, description, creator_id)
 VALUES
-  ('https://thumb.mp-farm.com/75973771/preview.jpg', 'Norway', 'Landscape', 2);
+  ('https://thumb.mp-farm.com/75973771/preview.jpg', 'Norway', 'Landscape', 3);
 
 INSERT
 INTO
@@ -73,14 +61,14 @@ INTO
   comments
   (comment, moment_id, creator_id)
 VALUES
-  ('Very Beautiful', 1, 1);
+  ('Very Beautiful', 1, 2);
 
 INSERT
 INTO
   comments
   (comment, moment_id, creator_id)
 VALUES
-  ('Amazing place', 1, 1);
+  ('Amazing place', 1, 3);
 
 INSERT
 INTO

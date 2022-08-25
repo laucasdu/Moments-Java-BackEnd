@@ -41,6 +41,7 @@ public class MomentService implements IMomentService {
     public MomentResponseDto getById(Long id) {
         var opMoment = momentRepository.findById(id);
         if(opMoment.isEmpty()) throw new NotFoundException("Moment Not Found", "M-153");
+        if(this.authenticationFacade.getAuthUser().isEmpty()) return new MomentMapper().mapMomentToMomentResponseDto(opMoment.get());
         MomentResponseDto responseMoment = new MomentMapper().mapMomentToMomentResponseDto(opMoment.get(), this.authenticationFacade.getAuthUser().get());
         return responseMoment;
     }
